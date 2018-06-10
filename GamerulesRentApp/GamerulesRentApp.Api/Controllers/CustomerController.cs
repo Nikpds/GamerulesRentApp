@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GamerulesRentApp.Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class CustomerController : Controller
     {
@@ -18,23 +19,35 @@ namespace GamerulesRentApp.Api.Controllers
             _db = db;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("")]
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] Customer customer)
         {
             try
             {
-                var customer = new Customer();
-                customer.Name = "Nikos";
-                customer.Lastname = "Perperidis";
-                customer.Address = "Maxis pogradets";
-                await _db.Customers.Insert(customer);
+                var result = await _db.Customers.Insert(customer);
 
-
-                return Ok(customer);
+                return Ok(result);
             }
             catch (Exception exc)
             {
-                return BadRequest("ασδασδασδ");
+                return BadRequest("Σφαλμα εισαγωγής πελάτη");
+            }
+        }
+
+        [Route("all")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _db.Customers.GetAll();
+
+                return Ok(result);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα εισαγωγής πελάτη");
             }
         }
     }

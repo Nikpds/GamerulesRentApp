@@ -13,7 +13,7 @@ namespace GamerulesRentApp.Api.Data
         public string Area { get; set; }
         public string Phone { get; set; }
         public string Mobile { get; set; }
-        public int CardNumber { get; set; }
+        public string CardNumber { get; set; }
         public string PostalCode { get; set; }
         public string IdentityNo { get; set; }
         public bool IsVerified { get; set; }

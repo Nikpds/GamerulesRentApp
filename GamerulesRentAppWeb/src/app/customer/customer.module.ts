@@ -4,6 +4,7 @@ import { RouterModule, Route } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+
 import { CustomerService } from './customer.service';
 
 const routes: Route[] = [
