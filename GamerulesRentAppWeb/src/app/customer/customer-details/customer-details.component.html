@@ -1,38 +1,65 @@
-<div class="field">
-  <label class="label">Όνομα</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.name" type="text" placeholder="Text input">
-  </div>
-</div>
-<div class="field">
-  <label class="label">Επίθετο</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.lastname" type="text" placeholder="Text input">
-  </div>
-</div>
-<div class="field">
-  <label class="label">Κινητό</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.mobile" type="text" placeholder="Text input">
-  </div>
-</div>
-<div class="field">
-  <label class="label">Τηλέφωνο</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.phone" type="text" placeholder="Text input">
-  </div>
-</div>
-<div class="field">
-  <label class="label">Διεύθυνση</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.address" type="text" placeholder="Text input">
-  </div>
-</div>
-<div class="field">
-  <label class="label">Αριθμός Κάρτας</label>
-  <div class="control">
-    <input class="input" [(ngModel)]="customer.cardNumber" type="text" placeholder="Text input">
-  </div>
-</div>
-<a (click)="insert()" class="button is-primary">Primary</a>
+<app-navbar></app-navbar>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <p class="title is-2">{{customer.id? 'Επεξεργασία Πελάτη': 'Νέος Πελάτης'}}</p>
+      <div class="columns is-multiline">
+        <div class="column is-8">
+          <div class="field">
+            <label class="label">Όνομα</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.name" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Επίθετο</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.lastname" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Κινητό</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.mobile" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Τηλέφωνο</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.phone" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Διεύθυνση</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.address" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Περιοχή</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.area" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Αριθμός Κάρτας</label>
+            <div class="control">
+              <input class="input" [(ngModel)]="customer.cardNumber" type="text" placeholder="Text input">
+            </div>
+          </div>
+          <span class="buttons">
+            <a [routerLink]="['/home']" class="button is-dark">Άκυρο</a>
+            <a (click)="insert()" class="button is-success">{{customer.id? 'Αποθήκευση': 'Εισαγωγή'}}</a>
+          </span>
+        </div>
+        <div class="column is-2"></div>
+        <div class="column is-2">
+          <figure class="image is-1by3">
+            <img [src]="'../../../assets/character.png'">
+          </figure>
 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

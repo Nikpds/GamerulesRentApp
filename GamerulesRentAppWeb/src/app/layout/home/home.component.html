@@ -1,3 +1,147 @@
-<p>
-  home works!
-</p>
+<section class="hero is-transparent is-fullheight">
+  <div class="hero-head">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-multiline">
+        <div class="column is-2">
+          <div class="card">
+            <div class="has-background-primary">
+              <div class="has-text-white padding-5 has-text-centered">
+                Πελατολόγιο
+              </div>
+            </div>
+            <div class="card-content">
+              <nav class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <i class="fa fa-users has-text-primary fa-4x"></i>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="has-text-centered">
+                      <p class="is-size-3 has-text-weight-bold"> 215</p>
+                      <a class="has-text-primary is-italic is-size-6" [routerLink]="['/customers']"> Πελάτες</a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-2">
+          <div class="card">
+            <div class="has-background-warning">
+              <div class="has-text-white padding-5 has-text-centered">
+                Ολοκληρωμένες Παραγγελίες
+              </div>
+            </div>
+            <div class="card-content">
+              <nav class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <i class="fa fa-puzzle-piece has-text-warning fa-4x"></i>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="has-text-centered">
+                      <p class="is-size-3 has-text-weight-bold"> 25</p>
+                      <a class="has-text-warning is-italic is-size-6" [routerLink]="[]"> Παραγγελίες</a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-2">
+          <div class="card">
+            <div class="has-background-success">
+              <div class="has-text-white padding-5 has-text-centered">
+                Παραγγελίες σε εξέλιξη
+              </div>
+            </div>
+            <div class="card-content">
+              <nav class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <i class="fa fa-puzzle-piece has-text-success fa-4x"></i>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="has-text-centered">
+                      <p class="is-size-3 has-text-weight-bold"> 25</p>
+                      <a class="has-text-success is-italic is-size-6" [routerLink]="[]"> σε εξέλιξη</a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="column is-2">
+          <div class="card">
+            <div class="has-background-danger">
+              <div class="has-text-white padding-5 has-text-centered">
+                Καθυστερημένες Παραγγελίες
+              </div>
+            </div>
+            <div class="card-content">
+              <nav class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <i class="fa fa-puzzle-piece has-text-danger fa-4x"></i>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="has-text-centered">
+                      <p class="is-size-3 has-text-weight-bold"> 5</p>
+                      <a class="has-text-danger is-italic is-size-6" [routerLink]="[]"> καθυστερημένες</a>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4"></div>
+        <div class="column is-8">
+          <div class="card">
+            <div class="has-background-dark">
+              <div class="has-text-white padding-5 has-text-centered">
+                Παραγγελίες για επιστροφή σήμερα
+              </div>
+              <table class="table is-fullwidth is-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Ονοματεπώνυμο</th>
+                    <th>Επιτραπέζιο</th>
+                    <th>Κόστος</th>
+                    <th>Ενοικιάστηκε</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
