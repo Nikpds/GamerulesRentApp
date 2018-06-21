@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Route } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
-
+import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { CustomerModule } from './customer/customer.module';
@@ -16,6 +16,7 @@ const routes: Route[] = [];
   imports: [
     BrowserModule,
     LayoutModule,
+    SharedModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     ToastrModule.forRoot({

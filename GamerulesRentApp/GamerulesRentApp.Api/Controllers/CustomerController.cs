@@ -1,5 +1,6 @@
 ﻿using GamerulesRentApp.Api.Data;
 using GamerulesRentApp.Api.DataContext;
+using GamerulesRentApp.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,13 +26,63 @@ namespace GamerulesRentApp.Api.Controllers
         {
             try
             {
-                var result = await _db.Customers.Insert(customer);
+                if (customer.IsValid())
+                {
+                    var result = await _db.Customers.Insert(customer);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Παρακαλώ συμπληρώστε Όνομα,Επίθετο,Τηλέφωνο και αριθμό Πελάτη");
+                }
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα εισαγωγής πελάτη");
+            }
+        }
+
+        [Route("")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Customer customer)
+        {
+            try
+            {
+                if (customer.IsValid())
+                {
+                    var result = await _db.Customers.Update(customer);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Παρακαλώ συμπληρώστε Όνομα,Επίθετο,Τηλέφωνο και αριθμό Πελάτη");
+                }
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα επεξεργασίας πελάτη");
+            }
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest("Δεν επιλέξατε έγκυρο πελάτη");
+                }
+
+                var result = await _db.Customers.Delete(id);
 
                 return Ok(result);
             }
             catch (Exception exc)
             {
-                return BadRequest("Σφαλμα εισαγωγής πελάτη");
+                return BadRequest("Σφαλμα διαγραφής πελάτη");
             }
         }
 
@@ -47,7 +98,7 @@ namespace GamerulesRentApp.Api.Controllers
             }
             catch (Exception exc)
             {
-                return BadRequest("Σφαλμα εισαγωγής πελάτη");
+                return BadRequest("Σφαλμα ανάκτησης πελατών");
             }
         }
     }

@@ -1,20 +1,30 @@
-<table class="table is-fullwidth is-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Επίθετο</th>
-      <th>Όνομα</th>
-      <th>Κινητό</th>
-      <th>Τηλέφωνο</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let c of customers;let i = index">
-      <td>{{i + 1}}</td>
-      <td>{{c.lastname}}</td>
-      <td>{{c.name}}</td>
-      <td>{{c.mobile}}</td>
-      <td>{{c.phone}}</td>
-    </tr>
-  </tbody>
-</table>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <table class="table is-fullwidth is-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Επίθετο</th>
+                <th>Όνομα</th>
+                <th>Κινητό</th>
+                <th>Τηλέφωνο</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of customers;let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{c.lastname}}</td>
+                <td>{{c.name}}</td>
+                <td>{{c.mobile}}</td>
+                <td>{{c.phone}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
