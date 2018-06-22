@@ -33,7 +33,7 @@ namespace GamerulesRentApp.Api.Controllers
                 }
                 else
                 {
-                    return BadRequest("Παρακαλώ συμπληρώστε Όνομα,Επίθετο,Τηλέφωνο και αριθμό Πελάτη");
+                    return BadRequest("Παρακαλώ συμπληρώστε Όνομα, Επίθετο, Τηλέφωνο και αριθμό Πελάτη");
                 }
 
             }
