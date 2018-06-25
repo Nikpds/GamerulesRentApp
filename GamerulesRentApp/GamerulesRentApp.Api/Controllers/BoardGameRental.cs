@@ -1,4 +1,6 @@
-﻿using GamerulesRentApp.Api.DataContext;
+﻿using GamerulesRentApp.Api.Data;
+using GamerulesRentApp.Api.DataContext;
+using GamerulesRentApp.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,25 +22,97 @@ namespace GamerulesRentApp.Api.Controllers
 
         [Route("")]
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] BoardGameRental rental)
+        public async Task<IActionResult> Insert([FromBody] BoardGameRent rental)
         {
             try
             {
-                if (customer.IsValid())
+                if (rental.IsValid())
                 {
-                    customer.Created = DateTime.Now;
-                    var result = await _db.Customers.Insert(customer);
+                    rental.Created = DateTime.Now;
+                    rental.ReturnDate = rental.RentDate.AddDays(rental.Days);
+                    var result = await _db.BoardGameRent.Insert(rental);
                     return Ok(result);
                 }
                 else
                 {
-                    return BadRequest("Παρακαλώ συμπληρώστε Όνομα, Επίθετο, Τηλέφωνο και αριθμό Πελάτη");
+                    return BadRequest("Παρακαλώ συμπληρώστε τα υποχρεωτικά πεδία");
                 }
 
             }
             catch (Exception exc)
             {
-                return BadRequest("Σφαλμα εισαγωγής πελάτη");
+                return BadRequest("Σφαλμα εισαγωγής");
+            }
+        }
+
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest("Δεν επιλέξατε ενοικίαση");
+                }
+                else
+                {
+                    var result = await _db.BoardGameRent.GetById(id);
+                    return Ok(result);
+                }
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα εισαγωγής");
+            }
+        }
+
+        [Route("")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] BoardGameRent rental)
+        {
+            try
+            {
+                if (rental.IsValid())
+                {
+                    rental.ReturnDate = rental.RentDate.AddDays(rental.Days);
+                    var result = await _db.BoardGameRent.Insert(rental);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Παρακαλώ συμπληρώστε τα υποχρεωτικά πεδία");
+                }
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα επεξεργασίας");
+            }
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest("Δεν επιλέξατε ενοικίαση");
+                }
+                else
+                {
+                    var result = await _db.BoardGameRent.Delete(id);
+                    return Ok(result);
+
+                }
+
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα επεξεργασίας");
             }
         }
     }

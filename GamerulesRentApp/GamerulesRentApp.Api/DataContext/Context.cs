@@ -10,7 +10,7 @@ namespace GamerulesRentApp.Api.DataContext
         public IMongoDatabase Database { get; private set; }
 
         public MongoDbRepository<Customer> Customers { get; set; }
-        public MongoDbRepository<BoardGameRent> CustomerRent { get; set; }
+        public MongoDbRepository<BoardGameRent> BoardGameRent { get; set; }
 
         public Context(string connectionString)
         {
@@ -25,7 +25,7 @@ namespace GamerulesRentApp.Api.DataContext
             this.Database = client.GetDatabase(url.DatabaseName);
 
             Customers = new MongoDbRepository<Customer>(this.Database, "Customers");
-            CustomerRent = new MongoDbRepository<BoardGameRent>(this.Database, "CustomerRent");
+            BoardGameRent = new MongoDbRepository<BoardGameRent>(this.Database, "CustomerRent");
         }
 
     }

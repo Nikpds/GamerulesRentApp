@@ -13,9 +13,11 @@ namespace GamerulesRentApp.Api.Data
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; }
         public DateTime Created { get; set; }
+
         [BsonIgnore]
-        public bool Overdue { get; set; }
-        public int Price { get; set; }        
+        public bool Overdue { get { return ReturnDate.Date > DateTime.Now; } }
+
+        public int Price { get; set; }
         public int Days { get; set; }
 
         public List<string> BoardGames { get; set; }

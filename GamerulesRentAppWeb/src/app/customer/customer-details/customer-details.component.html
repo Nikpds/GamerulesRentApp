@@ -48,7 +48,7 @@
           </div>
           <span class="buttons">
             <a [routerLink]="['/home']" class="button is-dark">Άκυρο</a>
-            <a (click)="insert()" class="button is-success">{{customer.id? 'Αποθήκευση': 'Εισαγωγή'}}</a>
+            <a (click)="!customer.id ? insert():update()" class="button is-success">{{customer.id? 'Αποθήκευση': 'Εισαγωγή'}}</a>
             <a *ngIf="customer.id" class="button is-danger">Διαγραφή</a>
           </span>
         </div>

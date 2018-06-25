@@ -54,13 +54,10 @@ namespace GamerulesRentApp.Api.DataContext
             return documents;
         }
 
-        public IList<T> GetCustomQuery(Expression<Func<T, DateTime>> predicate)
+        public IList<T> GetCustomQuery(Expression<Func<T, bool>> predicate, Expression<Func<T, bool>> predicate2)
         {
-            var d = DateTime.Now;
-            var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0, 0);
-            var endDate = new DateTime(d.Year, d.Month, d.Day, 23, 59, 59, 999);
             var builder = Builders<T>.Filter;
-            var filter = builder.Gte(predicate, startDate) & builder.Lt(predicate, endDate);
+            var filter = builder.Where(predicate) | builder.Where(predicate2);
 
             var group = collection.Aggregate()
                                   .Match(filter)

@@ -19,13 +19,23 @@ export class CustomerService {
     return this.http.post<Customer>(`${this.customerUrl}`, customer)
       .pipe(catchError(this.errorHandler));
   }
+  updateCustomer(customer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(`${this.customerUrl}`, customer)
+      .pipe(catchError(this.errorHandler));
+  }
 
   getCustomer(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.customerUrl}/${id}`)
       .pipe(catchError(this.errorHandler));
   }
+
   getCustomers(data: PagedData<Customer>): Observable<PagedData<Customer>> {
     return this.http.post<PagedData<Customer>>(`${this.customerUrl}/all`, data)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getCustomerForRent(search: string): Observable<any> {
+    return this.http.get<any>(`${this.customerUrl}/rent/${search}`)
       .pipe(catchError(this.errorHandler));
   }
 

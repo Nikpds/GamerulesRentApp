@@ -146,5 +146,29 @@ namespace GamerulesRentApp.Api.Controllers
                 return BadRequest("Σφαλμα ανάκτησης πελατών");
             }
         }
+
+        [Route("rent/{searchtext}")]
+        [HttpGet]
+        public IActionResult SearchCustomer(string searchtext)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(searchtext))
+                {
+                    return BadRequest("Δεν Βρέθηκε ο πελάτης");
+                }
+
+                var result = _db.Customers.GetCustomQuery(x => x.Lastname.ToLowerInvariant().Contains(searchtext), t => t.IdentityNo == searchtext).ToList();
+                var view = CustomerView.ConverCustomers(result);
+
+                return Ok(view == null ? new List<CustomerView>() : view);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Σφαλμα ανάκτησης πελατών");
+            }
+        }
+
+
     }
 }

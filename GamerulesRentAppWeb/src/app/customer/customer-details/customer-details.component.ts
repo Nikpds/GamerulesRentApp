@@ -40,6 +40,15 @@ export class CustomerDetailsComponent implements OnInit {
     });
   }
 
+  update() {
+    this.customerService.updateCustomer(this.customer).subscribe(res => {
+      this.customer = res;
+      this.notify.success();
+    }, err => {
+      this.notify.error(err.error);
+    });
+  }
+
   getCustomer(id: string) {
     this.customerService.getCustomer(id).subscribe(res => {
       this.customer = res;

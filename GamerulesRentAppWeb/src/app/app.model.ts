@@ -6,8 +6,6 @@ export class Customer {
     area: string;
     phone: string;
     mobile: string;
-    cardNumber: string;
-    postalCode: string;
     identityNo: string;
     isVerified: boolean;
     created: Date;
@@ -23,7 +21,7 @@ export class BoardGameRental {
     prive: number;
     days: number;
     overdue: boolean;
-    
+
     boardGames: Array<string>;
     constructor() {
         this.boardGames = new Array<string>();

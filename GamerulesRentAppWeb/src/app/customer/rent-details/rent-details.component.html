@@ -3,22 +3,83 @@
     <div class="container is-fluid">
       <p class="title is-2">Ενοικίαση</p>
       <div class="columns is-multiline">
-        <div class="column is-7">
+        <div class="column is-6">
           <div class="field">
-            <label class="label">Όνομα</label>
+            <label class="label">Επίθετο ή Αριθμός Κάρτας</label>
             <div class="control">
-              <input class="input" type="text">
+              <div class="dropdown is-fullwidth" [ngClass]="{'is-active':customers.length > 0}">
+                <div class="dropdown-trigger is-fullwidth">
+                  <input class="input is-fullwidth" [(ngModel)]="rentName" (keyup.enter)="searchCustomers()">
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a class="dropdown-item" *ngFor="let c of customers" (click)="addCustomer(c)">
+                      {{c.fullname}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field ">
+            <label class="label">Επιτραπέζιο προς Ενοικίαση</label>
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <input class="input is-expanded" [(ngModel)]="boardGameName" (keyup.enter)="addBoardGame()" type="text" placeholder="Επιτραπέζιο">
+              </div>
+              <div class="control">
+                <a class="button is-primary" (click)="addBoardGame()">
+                  Προσθήκη
+                </a>
+              </div>
             </div>
           </div>
           <div class="field">
-            <div class="control">
-              <input class="input is-readonly" [owlDateTimeTrigger]="dt1" [(ngModel)]="" [owlDateTime]="dt1" type="text"
-                readonly>
-              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
-              <div *ngIf="formErrors.registered" class="help is-danger">
-                {{ formErrors.registered }}
+            <label class="label">Επιτραπέζια</label>
+            <div class="field is-grouped is-grouped-multiline">
+              <div class="control" *ngFor="let b of rent.boardGames;let i = index">
+                <div class="tags has-addons">
+                  <a class="tag is-primary is-medium">{{b}}</a>
+                  <a class="tag is-delete is-dark is-medium" (click)="removeBoardGame(i)"></a>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">Ημέρες Ενοικίασης</label>
+            <div class="control">
+              <input class="input" type="number" [(ngModel)]="rent.days">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Συνολικό Κόστος Ενοικίασης</label>
+            <div class="control">
+              <input class="input" type="number" [(ngModel)]="rent.price">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Ημερομηνία Ενοικίασης</label>
+            <div class="field  has-addons">
+              <p class="control is-expanded">
+                <input readonly class="input is-readonly" [(ngModel)]="rent.rentDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" type="text">
+                <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
+              </p>
+              <p class="control">
+                <a class="button is-primary">
+                  <i class="fa fa-calendar"></i>
+                </a>
+              </p>
+            </div>
+          </div>
+          <div class="field is-clearfix">
+            <span class="buttons is-right">
+              <a class="button" [routerLink]="['/home']">Άκυρο</a>
+              <a class="button is-success" *ngIf="!rent.id">Ενοικίαση</a>
+              <a class="button is-danger" *ngIf="rent.id">Διαγραφή</a>
+              <a class="button is-success" *ngIf="rent.id">Επιστροφή</a>
+            </span>
           </div>
         </div>
       </div>
