@@ -28,6 +28,7 @@ namespace GamerulesRentApp.Api.Controllers
             {
                 if (customer.IsValid())
                 {
+                    customer.Created = DateTime.Now;
                     var result = await _db.Customers.Insert(customer);
                     return Ok(result);
                 }
@@ -87,12 +88,56 @@ namespace GamerulesRentApp.Api.Controllers
         }
 
         [Route("all")]
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpPost]
+        public IActionResult GetAll([FromBody] PagedData<Customer> options)
         {
             try
             {
-                var result = await _db.Customers.GetAll();
+                var query = _db.Customers.GetQueryAll();
+
+                if (options.Search != null && options.Search.Trim() != "")
+                {
+                    query.Where(x => x.Lastname.ToLowerInvariant().StartsWith(options.Search.ToLowerInvariant()));
+                }
+
+                switch (options.Order)
+                {
+                    case "lastname":
+                        query = options.IsAscending ? query.OrderBy(s => s.Lastname) : query.OrderByDescending(s => s.Lastname);
+                        break;
+                    case "created":
+                        query = options.IsAscending ? query.OrderBy(s => s.Created) : query.OrderByDescending(s => s.Created);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Lastname);
+                        break;
+                }
+
+                options.TotalRows = query.Count();
+                options.Rows = query
+                    .Skip((options.Page - 1) * options.PageSize)
+                    .Take(options.PageSize)
+                    .ToList();
+
+                return Ok(options);
+            }
+            catch (Exception exc)
+            {
+                return BadRequest("Σφαλμα ανάκτησης πελατών");
+            }
+        }
+
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return BadRequest("Δεν Βρέθηκε ο πελάτης");
+                }
+                var result = await _db.Customers.GetById(id);
 
                 return Ok(result);
             }

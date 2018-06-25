@@ -1,4 +1,5 @@
 export class Customer {
+    id: string;
     name: string;
     lastname: string;
     address: string;
@@ -9,4 +10,22 @@ export class Customer {
     postalCode: string;
     identityNo: string;
     isVerified: boolean;
+    created: Date;
+}
+
+export class BoardGameRental {
+    customerId: string;
+    customer: Customer;
+    created: Date;
+    rentDate: Date;
+    returnDate: Date;
+
+    prive: number;
+    days: number;
+    overdue: boolean;
+    
+    boardGames: Array<string>;
+    constructor() {
+        this.boardGames = new Array<string>();
+    }
 }

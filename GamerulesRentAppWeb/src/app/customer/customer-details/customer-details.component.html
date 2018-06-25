@@ -1,5 +1,5 @@
 <section class="hero">
-  <div class="hero-body">
+  <div class="hero-body" *ngIf="customer">
     <div class="container is-fluid">
       <p class="title is-2">{{customer.id? 'Επεξεργασία Πελάτη': 'Νέος Πελάτης'}}</p>
       <div class="columns is-multiline">
@@ -49,6 +49,7 @@
           <span class="buttons">
             <a [routerLink]="['/home']" class="button is-dark">Άκυρο</a>
             <a (click)="insert()" class="button is-success">{{customer.id? 'Αποθήκευση': 'Εισαγωγή'}}</a>
+            <a *ngIf="customer.id" class="button is-danger">Διαγραφή</a>
           </span>
         </div>
         <div class="column"></div>

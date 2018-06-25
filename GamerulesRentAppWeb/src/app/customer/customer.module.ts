@@ -6,11 +6,16 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 
 import { CustomerService } from './customer.service';
+import { RentDetailsComponent } from './rent-details/rent-details.component';
+import { RentListComponent } from './rent-list/rent-list.component';
 
 const routes: Route[] = [
   { path: 'customers', component: CustomerListComponent },
   { path: 'customer/:id', component: CustomerDetailsComponent },
   { path: 'customer/new', component: CustomerDetailsComponent },
+  { path: 'rents', component: RentListComponent },
+  { path: 'rent/:id', component: RentDetailsComponent },
+  { path: 'rent/new', component: RentDetailsComponent }
 ];
 
 @NgModule({
@@ -20,7 +25,9 @@ const routes: Route[] = [
   ],
   declarations: [
     CustomerListComponent,
-    CustomerDetailsComponent
+    CustomerDetailsComponent,
+    RentDetailsComponent,
+    RentListComponent
   ],
   providers: [
     CustomerService

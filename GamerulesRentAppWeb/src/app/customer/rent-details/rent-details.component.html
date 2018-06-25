@@ -1,0 +1,27 @@
+<section class="hero">
+  <div class="hero-body" *ngIf="true">
+    <div class="container is-fluid">
+      <p class="title is-2">Ενοικίαση</p>
+      <div class="columns is-multiline">
+        <div class="column is-7">
+          <div class="field">
+            <label class="label">Όνομα</label>
+            <div class="control">
+              <input class="input" type="text">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-readonly" [owlDateTimeTrigger]="dt1" [(ngModel)]="" [owlDateTime]="dt1" type="text"
+                readonly>
+              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+              <div *ngIf="formErrors.registered" class="help is-danger">
+                {{ formErrors.registered }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

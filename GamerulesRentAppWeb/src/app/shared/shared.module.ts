@@ -9,6 +9,9 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { NavbarComponent } from '../layout/navbar/navbar.component';
 import { NotifyService } from './notify.service';
+import { PaginationService } from './pagination.service';
+import { LoaderService } from './loader.service';
+import { ModalDirective } from './modal.directive';
 
 const config = {
   autoDismiss: true,
@@ -26,9 +29,12 @@ const config = {
     RouterModule
   ],
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    ModalDirective
   ], providers: [
-    NotifyService
+    NotifyService,
+    LoaderService,
+    PaginationService
   ], exports: [
     CommonModule,
     FormsModule,

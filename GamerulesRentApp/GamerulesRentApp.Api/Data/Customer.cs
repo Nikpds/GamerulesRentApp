@@ -17,6 +17,7 @@ namespace GamerulesRentApp.Api.Data
         public string PostalCode { get; set; }
         public string IdentityNo { get; set; }
         public bool IsVerified { get; set; }
+        public DateTime Created { get; set; }
 
 
     }

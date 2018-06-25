@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError as observableThrowError, Observable } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Customer } from '../app.model';
+import { PagedData } from '../shared/pagination.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +16,20 @@ export class CustomerService {
   ) { }
 
   insertCustomer(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>(`${this.customerUrl}`, customer);
+    return this.http.post<Customer>(`${this.customerUrl}`, customer)
+      .pipe(catchError(this.errorHandler));
   }
 
-  getCustomers(): Observable<Array<Customer>> {
-    return this.http.get<Array<Customer>>(`${this.customerUrl}/all`);
+  getCustomer(id: string): Observable<Customer> {
+    return this.http.get<Customer>(`${this.customerUrl}/${id}`)
+      .pipe(catchError(this.errorHandler));
+  }
+  getCustomers(data: PagedData<Customer>): Observable<PagedData<Customer>> {
+    return this.http.post<PagedData<Customer>>(`${this.customerUrl}/all`, data)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    return observableThrowError(error.error || 'Server Error');
   }
 }

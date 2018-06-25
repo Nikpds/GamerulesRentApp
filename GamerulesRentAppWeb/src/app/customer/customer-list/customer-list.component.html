@@ -3,26 +3,107 @@
     <div class="container is-fluid">
       <div class="columns is-multiline">
         <div class="column is-12">
-          <table class="table is-fullwidth is-striped">
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <span class="title is-4">Πελατολόγιο</span>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <div class="select is-fullwidth ">
+                        <select [(ngModel)]="pagedData.pageSize" (change)="getCustomers()">
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                          <option value="50">50</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field has-addons">
+                    <p class="control">
+                      <input class="input" [(ngModel)]="pagedData.search" (keyup.enter)="getCustomers(true)" type="text" placeholder="Αναζήτηση">
+                    </p>
+                    <p class="control">
+                      <button class="button is-primary" (click)="getCustomers(true)">
+                        Αναζήτηση
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="column is-12">
+          <table class="table is-fullwidth is-striped is-hoverable">
             <thead>
               <tr>
                 <th>#</th>
-                <th>Επίθετο</th>
+                <th>
+                  <a (click)="orderBy('lastname')">Επίθετο</a>
+                  <span class="icon is-small" *ngIf="pagedData.order === 'lastname'">
+                    <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': !pagedData.isAscending, 'fa-caret-up': pagedData.isAscending}"></i>
+                  </span>
+                </th>
                 <th>Όνομα</th>
                 <th>Κινητό</th>
                 <th>Τηλέφωνο</th>
+                <th>
+                  <a (click)="orderBy('created')">Εγγραφή</a>
+                  <span class="icon is-small" *ngIf="pagedData.order === 'created'">
+                    <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': !pagedData.isAscending, 'fa-caret-up': pagedData.isAscending}"></i>
+                  </span>
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let c of customers;let i = index">
+              <tr *ngFor="let c of pagedData.rows;let i = index" [routerLink]="['/customer' ,c.id]">
                 <td>{{i + 1}}</td>
                 <td>{{c.lastname}}</td>
                 <td>{{c.name}}</td>
                 <td>{{c.mobile}}</td>
                 <td>{{c.phone}}</td>
+                <td>{{c.created| date: 'dd-MM-yyyy'}}</td>
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="column is-12" *ngIf="pagedData.rows.length > 0">
+          <nav class="pagination is-centered">
+            <a class="pagination-previous" (click)="firstPage()">
+              <span class="icon is-small">
+                <i class="fa fa-fast-backward"></i>
+              </span>&nbsp; Πρώτη
+            </a>
+            <a class="pagination-previous" (click)="previousPage()">
+              <span class="icon is-small">
+                <i class="fa fa-step-backward"></i>
+              </span>
+              Προηγούμενη
+            </a>
+            <a class="pagination-next" (click)="nextPage()">
+              Επόμενη
+              <span class="icon is-small">
+                <i class="fa fa-step-forward"></i>
+              </span>
+            </a>
+            <a class="pagination-next" (click)="lastPage()">
+              Τελευταία &nbsp;
+              <span class="icon is-small">
+                <i class="fa fa-fast-forward"></i>
+              </span>
+            </a>
+            <ul class="pagination-list">
+              <li *ngFor="let p of pagedData.pages">
+                <a class="pagination-link" [ngClass]="{'is-current': pagedData.page == p}" (click)="setPage(p)">{{p}}</a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
