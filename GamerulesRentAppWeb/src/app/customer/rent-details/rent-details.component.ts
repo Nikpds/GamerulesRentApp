@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BoardGameRental } from '../../app.model';
 
 import { CustomerService } from '../customer.service';
+import { LoaderService } from '../../shared/loader.service';
+import { NotifyService } from '../../shared/notify.service';
 @Component({
   selector: 'app-rent-details',
   templateUrl: './rent-details.component.html',
@@ -13,7 +15,9 @@ export class RentDetailsComponent implements OnInit {
   customers = new Array<any>();
   rent = new BoardGameRental();
   constructor(
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private loader: LoaderService,
+    private notify: NotifyService
   ) { }
 
   ngOnInit() {
@@ -37,8 +41,26 @@ export class RentDetailsComponent implements OnInit {
     }
     this.customerService.getCustomerForRent(this.rentName).subscribe(res => {
       this.customers = res;
-      console.log(res);
+      if (this.customers.length === 0) {
+        this.notify.info('Δεν βρέθηκε χρήστης με τα στοιχεία που δώσατε');
+      }
     });
+  }
+
+  rentBoard() {
+    this.loader.show();
+    this.customerService.rentBoardGame(this.rent).subscribe(res => {
+      this.rent = res;
+      this.loader.hide();
+    }, err => this.loader.hide());
+  }
+
+  deleteRent() {
+    this.loader.show();
+  }
+
+  completeRent() {
+    this.loader.show();
   }
 
   addCustomer(customer: any) {

@@ -2,8 +2,9 @@
   <div class="hero-body" *ngIf="true">
     <div class="container is-fluid">
       <p class="title is-2">Ενοικίαση</p>
+      <p class="subtitle is-6">Η αναζήτηση πελάτη γίνετε με αριθμό κάρτας ή επίθετο. Μετά την υποβολή της φόρμας μπορείτε να προσθέσετε Επιτραπέζια και να μεταβάλετε το κόστος και τις ημέρες.</p>
       <div class="columns is-multiline">
-        <div class="column is-6">
+        <div class="column is-half-widescreen is-three-fifths-desktop">
           <div class="field">
             <label class="label">Επίθετο ή Αριθμός Κάρτας</label>
             <div class="control">
@@ -45,18 +46,20 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="column is-6">
           <div class="field">
-            <label class="label">Ημέρες Ενοικίασης</label>
-            <div class="control">
-              <input class="input" type="number" [(ngModel)]="rent.days">
-            </div>
-          </div>
-          <div class="field">
-            <label class="label">Συνολικό Κόστος Ενοικίασης</label>
-            <div class="control">
-              <input class="input" type="number" [(ngModel)]="rent.price">
+            <div class="field-body">
+              <div class="field">
+                <label class="label">Ημέρες Ενοικίασης</label>
+                <div class="control">
+                  <input class="input" type="number" [(ngModel)]="rent.days">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Συνολικό Κόστος Ενοικίασης</label>
+                <div class="control">
+                  <input class="input" type="number" [(ngModel)]="rent.price">
+                </div>
+              </div>
             </div>
           </div>
           <div class="field">
@@ -76,11 +79,14 @@
           <div class="field is-clearfix">
             <span class="buttons is-right">
               <a class="button" [routerLink]="['/home']">Άκυρο</a>
-              <a class="button is-success" *ngIf="!rent.id">Ενοικίαση</a>
-              <a class="button is-danger" *ngIf="rent.id">Διαγραφή</a>
-              <a class="button is-success" *ngIf="rent.id">Επιστροφή</a>
+              <a class="button is-success" (click)="rentBoard()" *ngIf="!rent.id">Ενοικίαση</a>
+              <a class="button is-danger" (click)="deleteRent()" *ngIf="rent.id">Διαγραφή</a>
+              <a class="button is-success" (click)="completeRent()" *ngIf="rent.id">Ολοκλήρωση</a>
             </span>
           </div>
+        </div>
+        <div class="column is-half-widescreen is-two-fifths-desktop">
+
         </div>
       </div>
     </div>

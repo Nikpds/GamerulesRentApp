@@ -11,11 +11,11 @@ namespace GamerulesRentApp.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class BoardGameRental : Controller
+    public class BoardGameRentalController : Controller
     {
         private Context _db;
 
-        public BoardGameRental(Context db)
+        public BoardGameRentalController(Context db)
         {
             _db = db;
         }
