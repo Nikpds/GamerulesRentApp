@@ -3,14 +3,15 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError as observableThrowError, Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Customer, BoardGameRental } from '../app.model';
-import { PagedData } from '../shared/pagination.service';
+import { Customer, BoardGameRental, DashboardView } from '../app.model';
+import { PagedData, DataResponse } from '../shared/pagination.service';
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
   private customerUrl = environment.api + '/customer';
   private boardGameUrl = environment.api + '/boardGameRental';
+  private dashboardUrl = environment.api + '/dashboard';
   constructor(
     private http: HttpClient
   ) { }
@@ -21,6 +22,11 @@ export class CustomerService {
   }
   updateCustomer(customer: Customer): Observable<Customer> {
     return this.http.put<Customer>(`${this.customerUrl}`, customer)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  deleteCustomer(id: string): Observable<Customer> {
+    return this.http.delete<Customer>(`${this.customerUrl}/${id}`)
       .pipe(catchError(this.errorHandler));
   }
 
@@ -54,13 +60,25 @@ export class CustomerService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getPagedRentals(data: PagedData<BoardGameRental>): Observable<PagedData<BoardGameRental>> {
-    return this.http.post<PagedData<BoardGameRental>>(`${this.boardGameUrl}/all`, data)
+  returnBoardGame(id: string): Observable<BoardGameRental> {
+    return this.http.get<BoardGameRental>(`${this.boardGameUrl}/return/${id}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getPagedRentals(page: number, pageSize: number,
+    status: string, order: string, search: string): Observable<DataResponse<BoardGameRental>> {
+    return this.http.get<DataResponse<BoardGameRental>>
+      (`${this.boardGameUrl}/rents/${page}/${pageSize}/${status}/${order}/${search}`)
       .pipe(catchError(this.errorHandler));
   }
 
   deleteRental(id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${this.boardGameUrl}/${id}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  getDashboardInfo(): Observable<DashboardView> {
+    return this.http.get<DashboardView>(`${this.dashboardUrl}`)
       .pipe(catchError(this.errorHandler));
   }
 

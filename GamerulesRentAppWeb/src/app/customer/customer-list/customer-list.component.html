@@ -6,7 +6,7 @@
           <nav class="level">
             <div class="level-left">
               <div class="level-item">
-                <span class="title is-4">Πελατολόγιο</span>
+                <span class="title is-3">Πελατολόγιο</span>
               </div>
             </div>
             <div class="level-right">
@@ -45,7 +45,7 @@
               <tr>
                 <th>#</th>
                 <th>
-                  <a (click)="orderBy('lastname')">Επίθετο</a>
+                  <a class="is-unselectable" (click)="orderBy('lastname')">Επίθετο</a>
                   <span class="icon is-small" *ngIf="pagedData.order === 'lastname'">
                     <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': !pagedData.isAscending, 'fa-caret-up': pagedData.isAscending}"></i>
                   </span>
@@ -54,7 +54,7 @@
                 <th>Κινητό</th>
                 <th>Τηλέφωνο</th>
                 <th>
-                  <a (click)="orderBy('created')">Εγγραφή</a>
+                  <a class="is-unselectable" (click)="orderBy('created')">Εγγραφή</a>
                   <span class="icon is-small" *ngIf="pagedData.order === 'created'">
                     <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': !pagedData.isAscending, 'fa-caret-up': pagedData.isAscending}"></i>
                   </span>

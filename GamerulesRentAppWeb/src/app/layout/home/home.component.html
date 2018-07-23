@@ -1,4 +1,4 @@
-<section class="hero is-medium">
+<section class="hero ">
   <div class="hero-body">
     <div class="container is-fluid">
       <div class="columns is-multiline">
@@ -19,7 +19,7 @@
                 <div class="level-right">
                   <div class="level-item">
                     <div class="has-text-centered">
-                      <p class="is-size-3 has-text-black has-text-weight-bold"> 215</p>
+                      <p class="is-size-3 has-text-black has-text-weight-bold"> {{info.customers}}</p>
                       <a class="has-text-primary is-italic is-size-6" [routerLink]="['/customers']"> Πελάτες</a>
                     </div>
                   </div>
@@ -46,8 +46,8 @@
                 <div class="level-right">
                   <div class="level-item">
                     <div class="has-text-centered">
-                      <p class="is-size-3 has-text-black has-text-weight-bold"> 25</p>
-                      <a class="has-text-warning is-italic is-size-6" [routerLink]="[]"> oλοκληρωμένες</a>
+                      <p class="is-size-3 has-text-black has-text-weight-bold">{{info.completedOrders}}</p>
+                      <a class="has-text-warning is-italic is-size-6" [routerLink]="['/rents','1','5','complete','created']"> oλοκληρωμένες</a>
                     </div>
                   </div>
                 </div>
@@ -73,8 +73,8 @@
                 <div class="level-right">
                   <div class="level-item">
                     <div class="has-text-centered">
-                      <p class="is-size-3 has-text-black has-text-weight-bold"> 25</p>
-                      <a class="has-text-success is-italic is-size-6" [routerLink]="[]"> σε εξέλιξη</a>
+                      <p class="is-size-3 has-text-black has-text-weight-bold">{{info.activeOrders}}</p>
+                      <a class="has-text-success is-italic is-size-6" [routerLink]="['/rents','1','5','pending','created']"> σε εξέλιξη</a>
                     </div>
                   </div>
                 </div>
@@ -101,8 +101,8 @@
                 <div class="level-right">
                   <div class="level-item">
                     <div class="has-text-centered">
-                      <p class="is-size-3 has-text-black has-text-weight-bold"> 5</p>
-                      <a class="has-text-danger is-italic is-size-6" [routerLink]="[]"> καθυστερημένες</a>
+                      <p class="is-size-3 has-text-black has-text-weight-bold">{{info.delayedOrders}}</p>
+                      <a class="has-text-danger is-italic is-size-6" [routerLink]="['/rents','1','5','delayed','created']"> καθυστερημένες</a>
                     </div>
                   </div>
                 </div>
@@ -112,27 +112,36 @@
         </div>
         <div class="column is-8">
           <div class="card">
-            <div class="has-background-dark">
-              <div class="has-text-white padding-5 has-text-centered">
+            <header class="card-header">
+              <p class="card-header-title">
                 Παραγγελίες για επιστροφή σήμερα
-              </div>
-              <table class="table is-fullwidth is-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Ονοματεπώνυμο</th>
-                    <th>Επιτραπέζιο</th>
-                    <th>Κόστος</th>
-                    <th>Ενοικιάστηκε</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td> </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              </p>
+
+            </header>
+            <table class="table is-fullwidth is-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ονοματεπώνυμο</th>
+                  <th>Επιτραπέζιο</th>
+                  <th>Κόστος</th>
+                  <th>Ενοικιάστηκε</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let d of info.rentsForToday;let i = index">
+                  <td>{{i + 1}}</td>
+                  <td>{{d.customer.lastname}} {{d.customer.name}}</td>
+                  <td>
+                    <span class="tags">
+                      <span class="tag is-primary" *ngFor="let b of d.boardGames">{{b}}</span>
+                    </span>
+                  </td>
+                  <td>{{d.price}}</td>
+                  <td>{{d.rentDate | date: 'dd-MM-yyyy'}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -141,3 +150,14 @@
     </div>
   </div>
 </section>
+
+
+<div class="main">
+  <div class="outer-circle">
+    <div class="inner-circle">
+      <div class="center-circle">
+        <!-- <div class="content"></div> -->
+      </div>
+    </div>
+  </div>
+</div>

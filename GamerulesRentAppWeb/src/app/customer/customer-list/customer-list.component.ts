@@ -5,6 +5,7 @@ import { Customer } from '../../app.model';
 import { CustomerService } from '../customer.service';
 import { PagedData, PaginationService } from '../../shared/pagination.service';
 import { NotifyService } from '../../shared/notify.service';
+import { LoaderService } from '../../shared/loader.service';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
@@ -15,7 +16,7 @@ export class CustomerListComponent implements OnInit {
   constructor(
     private pagerService: PaginationService,
     private customerService: CustomerService,
-    private notify: NotifyService
+    private notify: NotifyService, private loader: LoaderService
   ) { }
 
 
@@ -24,13 +25,15 @@ export class CustomerListComponent implements OnInit {
   }
 
   getCustomers(searching: boolean = false) {
+    this.loader.show();
     this.customerService.getCustomers(this.pagedData).subscribe(res => {
       this.pagedData = res;
       this.pagedData.page = searching ? 1 : this.pagedData.page;
       this.pagedData.totalPages = Math.ceil(res.totalRows / this.pagedData.pageSize);
       this.pagedData.pages = this.pagerService.getPages(this.pagedData.totalPages, this.pagedData.page);
-      this.pagedData.search = '';
+      this.loader.hide();
     }, error => {
+      this.loader.hide();
       this.notify.error(error);
     });
   }

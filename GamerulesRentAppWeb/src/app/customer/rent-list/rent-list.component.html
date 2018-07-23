@@ -1,3 +1,136 @@
-<p>
-  rent-list works!
-</p>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <span class="title is-3">Ενοικιάσεις</span>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                          <div class="select is-fullwidth ">
+                            <select [(ngModel)]="status" (change)="getRents()">
+                              <option value="all">Όλα</option>
+                              <option value="pending">Σε εξέλιξη</option>
+                              <option value="delayed">Καθυστερημένα</option>
+                              <option value="complete">Ολοκληρωμένα</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                  <div class="field">
+                    <div class="control">
+                      <div class="select is-fullwidth ">
+                        <select [(ngModel)]="pageSize" (change)="getRents()">
+                          <option value="5">5</option>
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                          <option value="50">50</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field has-addons">
+                    <p class="control">
+                      <input class="input" [(ngModel)]="search" (keyup.enter)="getRents()" type="text" placeholder="Αναζήτηση">
+                    </p>
+                    <p class="control">
+                      <button class="button is-primary" (click)="getRents()">
+                        Αναζήτηση
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="column is-12">
+          <table class="table is-fullwidth is-striped is-hoverable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>
+                  <a (click)="orderBy('lastname_asc')">Επίθετο</a>
+                  <span class="icon is-small" *ngIf="order === 'lastname_asc' || order === 'lastname_desc'">
+                    <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': order === 'lastname_desc', 'fa-caret-up': order === 'lastname_asc'}"></i>
+                  </span>
+                </th>
+                <th>Όνομα</th>
+                <th>Κινητό</th>
+                <th>Τιμή</th>
+                <th>
+                  <a (click)="orderBy('rent_asc')">Ημ/νια Εν</a>
+                  <span class="icon is-small" *ngIf="order === 'rent_asc' || order === 'rent_desc'">
+                    <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': order === 'rent_desc', 'fa-caret-up': order === 'rent_asc'}"></i>
+                  </span>
+                </th>
+                <th>
+                  <a (click)="orderBy('return_asc')">Ημ/νια Επιστ</a>
+                  <span class="icon is-small" *ngIf="order === 'return_asc' || order === 'return_desc'">
+                    <i class="fa fa-caret-down" [ngClass]="{'fa-caret-down': order === 'return_desc', 'fa-caret-up': order === 'return_asc'}"></i>
+                  </span>
+                </th>
+                <th>Κατάσταση</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of data.rows;let i = index" [routerLink]="['/rent' , r.id]">
+                <td>{{i + 1}}</td>
+                <td>{{r.customer.lastname}}</td>
+                <td>{{r.customer.name}}</td>
+                <td>{{r.customer.mobile}}</td>
+                <td>{{r.price}} &euro;</td>
+                <td>{{r.rentDate| date: 'dd-MM-yyyy'}}</td>
+                <td>{{r.returnDate| date: 'dd-MM-yyyy'}}</td>
+                <td>
+                  <span class="tag" [ngClass]="{'is-danger':  r.overdue,'is-success': r.returnedDate ,'is-warning': (!r.overdue && !r.returnedDate)}">
+                    {{r.overdue ? 'καθυστερημένο' : r.returnedDate ? 'ολοκληρωμένο' : 'σε εξέλιξη'  }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="column is-12" *ngIf="data.rows.length > 0">
+          <nav class="pagination is-centered">
+            <a class="pagination-previous" (click)="firstPage()">
+              <span class="icon is-small">
+                <i class="fa fa-fast-backward"></i>
+              </span>&nbsp; Πρώτη
+            </a>
+            <a class="pagination-previous" (click)="previousPage()">
+              <span class="icon is-small">
+                <i class="fa fa-step-backward"></i>
+              </span>
+              Προηγούμενη
+            </a>
+            <a class="pagination-next" (click)="nextPage()">
+              Επόμενη
+              <span class="icon is-small">
+                <i class="fa fa-step-forward"></i>
+              </span>
+            </a>
+            <a class="pagination-next" (click)="lastPage()">
+              Τελευταία &nbsp;
+              <span class="icon is-small">
+                <i class="fa fa-fast-forward"></i>
+              </span>
+            </a>
+            <ul class="pagination-list">
+              <li *ngFor="let p of pages">
+                <a class="pagination-link" [ngClass]="{'is-current': page == p}" (click)="setPage(p)">{{p}}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -30,6 +30,13 @@ export class PaginationService {
     return pages;
   }
 }
+export class DataResponse<T> {
+  totalRows: number;
+  rows: Array<T>;
+  constructor() {
+    this.rows = new Array<T>();
+  }
+}
 
 export class PagedData<T> {
   totalRows: number;

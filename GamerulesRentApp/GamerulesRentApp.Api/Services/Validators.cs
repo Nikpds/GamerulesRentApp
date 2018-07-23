@@ -24,7 +24,6 @@ namespace GamerulesRentApp.Api.Services
                rental.Days > 0 &&
                rental.RentDate != null &&
                rental.Created != null &&
-               rental.ReturnDate != null &&
                rental.BoardGames.Count > 0;
         }
     }

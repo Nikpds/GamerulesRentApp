@@ -80,12 +80,13 @@ namespace GamerulesRentApp.Api.DataContext
 
             return group;
         }
-        public IList<T> GetAbsencesQuery(Expression<Func<T, DateTime>> predicate, Expression<Func<T, string>> predicate2, IEnumerable<string> ids, int days)
+        public IList<T> GetTodayQuery(Expression<Func<T, DateTime>> predicate)
         {
             var d = DateTime.Now;
-            var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0, 0).AddDays(-days);
+            var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0, 0);
+            var endDate = new DateTime(d.Year, d.Month, d.Day, 23, 59, 59, 999);
             var builder = Builders<T>.Filter;
-            var filter = builder.In(predicate2, ids) & builder.Gte(predicate, startDate);
+            var filter = builder.Gte(predicate, startDate) & builder.Lt(predicate, endDate);
 
             var group = collection.Aggregate()
                                   .Match(filter)
@@ -93,6 +94,32 @@ namespace GamerulesRentApp.Api.DataContext
 
             return group;
         }
+        public int DelayedRents(Expression<Func<T, DateTime>> predicate, Expression<Func<T, bool>> predicate2)
+        {
+            var d = DateTime.Now;
+            var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0, 0);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Lt(predicate, startDate) & builder.Where(predicate2);
+
+            var group = collection.Aggregate()
+                                  .Match(filter).ToList().Count();
+
+            return group;
+        }
+
+        public int PendingRents(Expression<Func<T, DateTime>> predicate, Expression<Func<T, bool>> predicate2)
+        {
+            var d = DateTime.Now;
+            var startDate = new DateTime(d.Year, d.Month, d.Day, 0, 0, 0, 0);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Gt(predicate, startDate) & builder.Where(predicate2);
+
+            var group = collection.Aggregate()
+                                  .Match(filter).ToList().Count();
+
+            return group;
+        }
+
 
         public IQueryable<T> GetFilterQuery(Expression<Func<T, bool>> predicate)
         {

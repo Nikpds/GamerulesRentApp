@@ -11,6 +11,7 @@ import { NotifyService } from '../../shared/notify.service';
 })
 export class CustomerDetailsComponent implements OnInit {
   customer: Customer;
+  verify: boolean;
   constructor(
     private customerService: CustomerService,
     private notify: NotifyService,
@@ -19,7 +20,6 @@ export class CustomerDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.activeRoute.params.subscribe((param: Params) => {
       const id = param['id'];
       if (id !== 'new') {
@@ -27,6 +27,14 @@ export class CustomerDetailsComponent implements OnInit {
       } else {
         this.customer = new Customer();
       }
+    });
+  }
+  deleteCustomer() {
+    this.customerService.deleteCustomer(this.customer.id).subscribe(res => {
+      this.notify.success('O Πελάτης διαγράφτηκε');
+      this.router.navigate(['/customers']);
+    }, err => {
+      this.notify.error(err.error);
     });
   }
 
@@ -43,7 +51,7 @@ export class CustomerDetailsComponent implements OnInit {
   update() {
     this.customerService.updateCustomer(this.customer).subscribe(res => {
       this.customer = res;
-      this.notify.success();
+      this.notify.success('Επιτυχής αποθήκευση');
     }, err => {
       this.notify.error(err.error);
     });

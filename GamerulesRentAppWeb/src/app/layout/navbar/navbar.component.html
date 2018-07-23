@@ -1,4 +1,4 @@
-<nav class="navbar is-transparent ">
+<nav class="navbar is-black">
   <div class="container is-fluid">
     <div class="navbar-brand">
       <a class="navbar-item has-text-white has-text-weight-bold is-size-5 is-italic" [routerLink]="['/home']">
@@ -15,34 +15,30 @@
 
     <div id="navbarExampleTransparentExample" class="navbar-menu">
       <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="field is-grouped">
-            <p class="control">
-              <a class="button is-primary" [routerLink]="['/rent','new']">
-                <span class="icon">
-                  <i class="fa fa-shopping-cart"></i>
-                </span>
-                <span>Νέα Ενοικίαση</span>
-              </a>
-            </p>
-            <p class="control">
-              <a class="button is-primary" [routerLink]="['/customer','new']">
-                <span class="icon">
-                  <i class="fa fa-user-plus"></i>
-                </span>
-                <span>Νέος Πελάτης</span>
-              </a>
-            </p>
-            <p class="control">
-              <a class="button is-primary" [routerLink]="['/customers']">
-                <span class="icon">
-                  <i class="fa fa-users"></i>
-                </span>
-                <span>Πελάτες</span>
-              </a>
-            </p>
-          </div>
-        </div>
+        <a class="navbar-item" [routerLink]="['/rent','new']">
+          <span class="icon">
+            <i class="fa fa-shopping-cart"></i>
+          </span>
+          <span>Νέα Ενοικίαση</span>
+        </a>
+        <a class="navbar-item" [routerLink]="['/rents','1','5','all','created']">
+          <span class="icon">
+            <i class="fa fa-list"></i>
+          </span>
+          <span>Ενοικίασεις</span>
+        </a>
+        <a class="navbar-item" [routerLink]="['/customer','new']">
+          <span class="icon">
+            <i class="fa fa-user-plus"></i>
+          </span>
+          <span>Νέος Πελάτης</span>
+        </a>
+        <a class="navbar-item" [routerLink]="['/customers']">
+          <span class="icon">
+            <i class="fa fa-users"></i>
+          </span>
+          <span>Πελάτες</span>
+        </a>
       </div>
     </div>
   </div>

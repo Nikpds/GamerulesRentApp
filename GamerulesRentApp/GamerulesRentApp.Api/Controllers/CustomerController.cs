@@ -76,10 +76,10 @@ namespace GamerulesRentApp.Api.Controllers
                 {
                     return BadRequest("Δεν επιλέξατε έγκυρο πελάτη");
                 }
-
+                var deleteRental = await _db.BoardGameRent.Delete(x => x.CustomerId == id);
                 var result = await _db.Customers.Delete(id);
 
-                return Ok(result);
+                return Ok(result && deleteRental);
             }
             catch (Exception exc)
             {
@@ -93,13 +93,16 @@ namespace GamerulesRentApp.Api.Controllers
         {
             try
             {
-                var query = _db.Customers.GetQueryAll();
+                IQueryable<Customer> query;
 
                 if (options.Search != null && options.Search.Trim() != "")
                 {
-                    query.Where(x => x.Lastname.ToLowerInvariant().StartsWith(options.Search.ToLowerInvariant()));
+                    query = _db.Customers.GetFilterQuery(x => x.Lastname.ToLowerInvariant().StartsWith(options.Search.ToLowerInvariant()));
                 }
-
+                else
+                {
+                    query = _db.Customers.GetQueryAll();
+                }
                 switch (options.Order)
                 {
                     case "lastname":
@@ -109,9 +112,11 @@ namespace GamerulesRentApp.Api.Controllers
                         query = options.IsAscending ? query.OrderBy(s => s.Created) : query.OrderByDescending(s => s.Created);
                         break;
                     default:
-                        query = query.OrderBy(s => s.Lastname);
+                        query = query.OrderByDescending(s => s.Lastname);
                         break;
                 }
+
+
 
                 options.TotalRows = query.Count();
                 options.Rows = query

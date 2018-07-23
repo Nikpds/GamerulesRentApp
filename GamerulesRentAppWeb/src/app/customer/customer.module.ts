@@ -13,7 +13,8 @@ const routes: Route[] = [
   { path: 'customers', component: CustomerListComponent },
   { path: 'customer/:id', component: CustomerDetailsComponent },
   { path: 'customer/new', component: CustomerDetailsComponent },
-  { path: 'rents', component: RentListComponent },
+  { path: 'rents/:page/:pageSize/:status/:order/:search', component: RentListComponent },
+  { path: 'rents/:page/:pageSize/:status/:order', component: RentListComponent },
   { path: 'rent/:id', component: RentDetailsComponent },
   { path: 'rent/new', component: RentDetailsComponent }
 ];

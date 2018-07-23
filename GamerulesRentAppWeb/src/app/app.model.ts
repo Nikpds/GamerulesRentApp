@@ -17,7 +17,8 @@ export class BoardGameRental {
     created: Date;
     rentDate: Date;
     returnDate: Date;
-
+    returnedDate: Date;
+    id: string;
     prive: number;
     days: number;
     overdue: boolean;
@@ -25,5 +26,16 @@ export class BoardGameRental {
     boardGames: Array<string>;
     constructor() {
         this.boardGames = new Array<string>();
+    }
+}
+
+export class DashboardView {
+    customers: number;
+    activeOrders: number;
+    completedOrders: number;
+    delayedOrders: number;
+    rentsForToday: Array<BoardGameRental>;
+    constructor() {
+        this.rentsForToday = new Array<BoardGameRental>();
     }
 }

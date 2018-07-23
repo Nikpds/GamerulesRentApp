@@ -1,16 +1,29 @@
 <section class="hero">
   <div class="hero-body" *ngIf="true">
     <div class="container is-fluid">
-      <p class="title is-2">Ενοικίαση</p>
-      <p class="subtitle is-6">Η αναζήτηση πελάτη γίνετε με αριθμό κάρτας ή επίθετο. Μετά την υποβολή της φόρμας μπορείτε να προσθέσετε Επιτραπέζια και να μεταβάλετε το κόστος και τις ημέρες.</p>
-      <div class="columns is-multiline">
+      <p class="title is-2">Ενοικίαση </p>
+      <p class="subtitle is-6">Η αναζήτηση πελάτη γίνετε με αριθμό κάρτας ή επίθετο. Μετά την υποβολή της φόρμας μπορείτε να προσθέσετε Επιτραπέζια
+        και να μεταβάλετε το κόστος και τις ημέρες.</p>
+      <div class="columns is-multiline" *ngIf="rent">
         <div class="column is-half-widescreen is-three-fifths-desktop">
-          <div class="field">
+          <div class="field" *ngIf="!rent.id">
             <label class="label">Επίθετο ή Αριθμός Κάρτας</label>
             <div class="control">
               <div class="dropdown is-fullwidth" [ngClass]="{'is-active':customers.length > 0}">
-                <div class="dropdown-trigger is-fullwidth">
-                  <input class="input is-fullwidth" [(ngModel)]="rentName" (keyup.enter)="searchCustomers()">
+                <div class="dropdown-trigger is-fullwidth ">
+                  <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                      <input class="input is-expanded" [(ngModel)]="rentName" placeholder="Πελάτης" (keyup.enter)="searchCustomers()">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-user"></i>
+                      </span>
+                    </div>
+                    <div class="control">
+                      <a class="button is-danger" (click)="removeCustomer()">
+                        <i class="fa fa-times"></i>
+                      </a>
+                    </div>
+                  </div>
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
@@ -22,11 +35,36 @@
               </div>
             </div>
           </div>
+          <div class="field" *ngIf="rent.id">
+            <div class="tags has-addons" *ngIf="rent.customer">
+              <span class="tag is-large is-dark">Πελάτης</span>
+              <span class="tag is-info is-large">{{rent.customer.lastname}} {{rent.customer.name}}</span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Ημερομηνία Ενοικίασης</label>
+            <div class="field  has-addons">
+              <p class="control is-expanded">
+                <input readonly class="input is-readonly" [disabled]="rent.returnedDate" [(ngModel)]="rent.rentDate" [owlDateTimeTrigger]="dt"
+                  [owlDateTime]="dt" type="text">
+                <owl-date-time #dt></owl-date-time>
+              </p>
+              <p class="control">
+                <a class="button is-primary">
+                  <i class="fa fa-calendar"></i>
+                </a>
+              </p>
+            </div>
+          </div>
           <div class="field ">
             <label class="label">Επιτραπέζιο προς Ενοικίαση</label>
             <div class="field has-addons">
-              <div class="control is-expanded">
-                <input class="input is-expanded" [(ngModel)]="boardGameName" (keyup.enter)="addBoardGame()" type="text" placeholder="Επιτραπέζιο">
+              <div class="control has-icons-left is-expanded">
+                <input class="input is-expanded" [disabled]="rent.returnedDate" [(ngModel)]="boardGameName" (keyup.enter)="addBoardGame()"
+                  type="text" placeholder="Επιτραπέζιο">
+                <span class="icon is-small is-left">
+                  <i class="fa fa-puzzle-piece"></i>
+                </span>
               </div>
               <div class="control">
                 <a class="button is-primary" (click)="addBoardGame()">
@@ -40,8 +78,8 @@
             <div class="field is-grouped is-grouped-multiline">
               <div class="control" *ngFor="let b of rent.boardGames;let i = index">
                 <div class="tags has-addons">
-                  <a class="tag is-primary is-medium">{{b}}</a>
-                  <a class="tag is-delete is-dark is-medium" (click)="removeBoardGame(i)"></a>
+                  <span class="tag is-primary is-medium">{{b}}</span>
+                  <span class="tag is-delete is-dark is-medium" *ngIf="!rent.returnedDate" (click)="removeBoardGame(i)"></span>
                 </div>
               </div>
             </div>
@@ -50,38 +88,32 @@
             <div class="field-body">
               <div class="field">
                 <label class="label">Ημέρες Ενοικίασης</label>
-                <div class="control">
-                  <input class="input" type="number" [(ngModel)]="rent.days">
+                <div class="control has-icons-left">
+                  <input class="input" [disabled]="rent.returnedDate" type="number" [(ngModel)]="rent.days">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-calendar"></i>
+                  </span>
                 </div>
               </div>
               <div class="field">
                 <label class="label">Συνολικό Κόστος Ενοικίασης</label>
-                <div class="control">
-                  <input class="input" type="number" [(ngModel)]="rent.price">
+                <div class="control has-icons-left">
+                  <input class="input" [disabled]="rent.returnedDate" type="number" [(ngModel)]="rent.price">
+                  <span class="icon is-small is-left">
+                    <i class="fa fa-euro"></i>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Ημερομηνία Ενοικίασης</label>
-            <div class="field  has-addons">
-              <p class="control is-expanded">
-                <input readonly class="input is-readonly" [(ngModel)]="rent.rentDate" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" type="text">
-                <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
-              </p>
-              <p class="control">
-                <a class="button is-primary">
-                  <i class="fa fa-calendar"></i>
-                </a>
-              </p>
-            </div>
-          </div>
+
           <div class="field is-clearfix">
             <span class="buttons is-right">
-              <a class="button" [routerLink]="['/home']">Άκυρο</a>
+              <a class="button" [routerLink]="['/home']">Πίσω</a>
               <a class="button is-success" (click)="rentBoard()" *ngIf="!rent.id">Ενοικίαση</a>
-              <a class="button is-danger" (click)="deleteRent()" *ngIf="rent.id">Διαγραφή</a>
-              <a class="button is-success" (click)="completeRent()" *ngIf="rent.id">Ολοκλήρωση</a>
+              <a class="button is-danger" (click)="verify = true" *ngIf="rent.id">Διαγραφή</a>
+              <a class="button is-primary" (click)="updateRent()" *ngIf="rent.id && !rent.returnedDate">Αποθήκευση</a>
+              <a class="button is-success" (click)="completeRent()" *ngIf="rent.id && !rent.returnedDate">Ολοκλήρωση</a>
             </span>
           </div>
         </div>
@@ -92,3 +124,20 @@
     </div>
   </div>
 </section>
+
+
+<div class="modal" [ngClass]="{'is-active':verify}">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Επιβεβαίωση διαγραφής</p>
+    </header>
+    <section class="modal-card-body">
+      Είστε σίγουρος για την διαγραφή?
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-default" (click)="verify = false">Άκυρο</button>
+      <button class="button is-danger" (click)="deleteRent()">Διαγραφή</button>
+    </footer>
+  </div>
+</div>
