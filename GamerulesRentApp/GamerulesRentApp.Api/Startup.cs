@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GamerulesRentApp.Api.DataContext;
@@ -39,7 +40,29 @@ namespace GamerulesRentApp.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            if (env.IsProduction())
+            {
+                app.Use(async (ctx, next) =>
+                {
+                    ctx.Response.Headers.Add("Content-Security-Policy",
+                                            "default-src 'self' * 'unsafe-inline' 'unsafe-eval' data:");
+                    await next();
+                });
+            }
+            app.UseDefaultFiles();
+            app.Use(async (context, next) =>
+            {
+                await next();
 
+                if (context.Response.StatusCode == 404
+                    && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
+
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

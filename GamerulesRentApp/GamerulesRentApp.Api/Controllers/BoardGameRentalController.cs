@@ -58,8 +58,12 @@ namespace GamerulesRentApp.Api.Controllers
                 else
                 {
                     var result = await _db.BoardGameRent.GetById(id);
-                    result.Customer = await _db.Customers.GetById(result.CustomerId);
+                    if (result != null)
+                    {
+                        result.Customer = await _db.Customers.GetById(result.CustomerId);
+                    }
                     return Ok(result);
+
                 }
 
             }
@@ -172,7 +176,7 @@ namespace GamerulesRentApp.Api.Controllers
                     query = _db.BoardGameRent.GetQueryAll();
                 }
 
-               
+
 
                 query = (from b in query
                          join cus in _db.Customers.GetQueryAll() on b.CustomerId equals cus.Id into customer

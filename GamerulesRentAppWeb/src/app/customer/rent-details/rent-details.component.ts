@@ -43,6 +43,10 @@ export class RentDetailsComponent implements OnInit {
       this.rent = res;
       console.log(res);
       this.loader.hide();
+      if (!res) {
+        this.notify.info('Δεν βρέθηκε η ενοικίαση που ψάχνετε');
+        this.router.navigate(['/rents', '1', '5', 'all', 'created']);
+      }
     }, error => {
       this.loader.hide();
     });
@@ -91,7 +95,8 @@ export class RentDetailsComponent implements OnInit {
   deleteRent() {
     this.loader.show();
     this.customerService.deleteRental(this.rent.id).subscribe(res => {
-      this.router.navigate(['/rents']);
+      this.router.navigate(['/rents', '1', '5', 'all', 'created']);
+      this.verify = false;
       this.notify.success('Η Ενοικίαση διαγράφτηκε');
       this.loader.hide();
     }, error => {
